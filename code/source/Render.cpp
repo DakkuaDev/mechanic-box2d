@@ -7,7 +7,7 @@
 
 #include "Render.h";
 
-namespace world_render
+namespace drawing
 {
     void render(b2World& physics_world, RenderWindow& window, float scale)
     {

@@ -13,9 +13,10 @@
 using namespace sf;
 using namespace std;
 
-namespace world_render
+namespace physics
 {
-
+    b2Body* create_circle(b2World& physics_world, b2BodyType body_type, float x, float y, float radius);
     b2Body* create_box(b2World& physics_world, b2BodyType body_type, float x, float y, float width, float height);
+    b2Body* create_triangle(b2World& physics_world, b2BodyType body_type, float x, float y, float width, float height);
 
 }

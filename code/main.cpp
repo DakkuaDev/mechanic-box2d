@@ -5,6 +5,7 @@
     @Description: Desarollo mecánico de primitivas animadas fisicamente en un entorno de renderizado 2D
 */
 
+#include <iostream>
 #include <memory>
 #include <vector>
 
@@ -13,14 +14,23 @@
 #include "Shape.h"
 
 using namespace std;
-using namespace world_render;
+using namespace physics; // Encapsulación de Box 2D 
+using namespace drawing; // Encapsulación de SFML
+
+const int WIDTH = 1200;
+const int HEIGHT = 720;
 
 
 int main ()
 {
-    RenderWindow window(VideoMode(800, 600), "Mechanism - 3D Animation. Daniel Guerra Gallardo", Style::Titlebar | Style::Close, ContextSettings(32));
 
-    window.setVerticalSyncEnabled (true);
+    RenderWindow window(VideoMode(WIDTH, HEIGHT), "Mechanism - 3D Animation. Daniel Guerra Gallardo", Style::Titlebar | Style::Close, ContextSettings(32));
+    window.setVerticalSyncEnabled(true);
+
+    // Creo una vista, que me va a permitir adaptar el contenido de la pantalla para que al cambiar su resolución se ajusten sus coordenadas (fixed)
+    View view;
+    view.reset(sf::FloatRect(100, 100, WIDTH, HEIGHT));
+    window.setView(view);
 
     auto  physics_world = create_physics_world ();
 

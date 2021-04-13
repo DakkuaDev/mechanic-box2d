@@ -8,7 +8,7 @@
 #include "WorldGenerator.h";
 #include "Shape.h"
 
-namespace world_render
+namespace physics
 {
     unique_ptr< b2World > create_physics_world()
     {
@@ -19,60 +19,32 @@ namespace world_render
             new b2World{ b2Vec2{ 0, -10.f } }
         };
 
-        //// CÍRCULO
-        //{
-        //    // Se crea el body a partir de una definición de sus características:
+        // JUGADOR
+        create_circle(*physics_world, b2_dynamicBody, 2, 4, 0.25f);
 
-        //    b2BodyDef body_definition;
+        // ESCENARIO
+        // --------- Piso Inferior ----------------
 
-        //    body_definition.type = b2_dynamicBody;
-        //    body_definition.position.Set(4, 3);                                    // Posición inicial absoluta
+        // Estáticos (Izquierda a derecha)
+        create_box(*physics_world, b2_staticBody, 2.20f, -0.2f, 1.1f, 0.75f);
+        create_box(*physics_world, b2_staticBody, 6.85f, -0.75f, 3.5f, 0.20f);
+        create_triangle(*physics_world, b2_staticBody, 3.35f, -0.5f, 1, 1);
 
-        //    b2Body* body = physics_world->CreateBody(&body_definition);
+        // Kinemáticos
+        create_box(*physics_world, b2_kinematicBody, 11.65f, -0.75f, 1.25f, 0.20f);
 
-        //    // Se añande una fixture al body:
+        // --------- Piso Superior ----------------
 
-        //    b2CircleShape body_shape;
+        // Estáticos (Dercha a izquierda)
+        create_box(*physics_world, b2_staticBody, 9.38f, 4.35f, 0.85f, 0.20f);
 
-        //    body_shape.m_radius = .5f;
+        auto rotate_body = create_box(*physics_world, b2_staticBody, 7.65f, 3.5f, 1.4f, 0.15f);
+        rotate_body->SetTransform(rotate_body->GetPosition(), 95.f);
 
-        //    b2FixtureDef body_fixture;
-
-        //    body_fixture.shape = &body_shape;
-        //    body_fixture.density = 1.00f;
-        //    body_fixture.restitution = 0.75f;
-        //    body_fixture.friction = 0.50f;
-
-        //    body->CreateFixture(&body_fixture);
-        //}
-
-        // CUADRADO
-        create_box(*physics_world, b2_dynamicBody, 4, 3, .5f, .5f);
-
-        // SUELO
-        {
-            // Se crea el body a partir de una definición de sus características:
-
-            b2BodyDef body_definition;
-
-            body_definition.type = b2_staticBody;
-            body_definition.position.Set(0.f, 1.f);                                // Posición inicial absoluta
-            body_definition.angle = 0.f;
-
-            b2Body* body = physics_world->CreateBody(&body_definition);
-
-            // Se añande una fixture al body:
-
-            b2EdgeShape body_shape;
-
-            body_shape.SetTwoSided(b2Vec2(0.f, 1.f), b2Vec2(10, 1.f));                     // Coordenadas locales respecto al centro del body
-
-            b2FixtureDef body_fixture;
-
-            body_fixture.shape = &body_shape;
-
-            body->CreateFixture(&body_fixture);
-        }
+        create_box(*physics_world, b2_staticBody, 6.20f, 2.5f, 0.55f, 0.20f);
+       
+         // Kinemáticos
+        create_box(*physics_world, b2_kinematicBody, 4.5f, 2.5f, 1.10f, 0.20f);
 
         return physics_world;
     }

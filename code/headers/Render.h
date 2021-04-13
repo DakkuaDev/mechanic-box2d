@@ -13,7 +13,7 @@
 using namespace sf;
 using namespace std;
 
-namespace world_render
+namespace drawing
 {
     /** En Box2D las coordenadas Y crecen hacia arriba y en SFML crecen hacia abajo desde el borde superior.
     * Esta función se encarga de convertir el sistema de coordenadas para que la escena no se vea invertida.

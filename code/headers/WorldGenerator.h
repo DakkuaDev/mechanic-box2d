@@ -14,7 +14,7 @@ using namespace sf;
 using namespace std;
 
 
-namespace world_render
+namespace physics
 {
     // Crea un nuevo mundo físico a partir de los datos de SFML y Box2D
     unique_ptr< b2World > create_physics_world();
