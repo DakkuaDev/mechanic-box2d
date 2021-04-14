@@ -52,33 +52,37 @@ namespace drawing
                     window.draw(shape);
                 }
                 else
-                    if (shape_type == b2Shape::e_edge)
+                    if (shape_type == b2Shape::e_polygon)
                     {
-                        // Se toman los dos vértices del segmento y se ajusta su posición usando el transform del body.
-                        // Los vértices resultantes se convierten y se ponen en un array para finalmente dibujar el segmento
-                        // que los une usando la sobrecarga del método draw() que permite dibujar primitivas de OpenGL a
-                        // partir de datos de vértices.
+                        // Se toma la forma poligonal de Box2D (siempre es convexa) y se crea a partir de sus vértices un
+                        // ConvexShape de SFML. Cada vértice de Box2D hay que transformarlo usando el transform del body.
 
-                        b2EdgeShape* edge = dynamic_cast<b2EdgeShape*>(fixture->GetShape());
+                        b2PolygonShape* box2d_polygon = dynamic_cast<b2PolygonShape*>(fixture->GetShape());
+                        ConvexShape       sfml_polygon;
 
-                        b2Vec2 start = b2Mul(body_transform, edge->m_vertex1);
-                        b2Vec2 end = b2Mul(body_transform, edge->m_vertex2);
+                        int number_of_vertices = box2d_polygon->m_count;
 
-                        Vertex line[] =
+                        sfml_polygon.setPointCount(number_of_vertices);
+                        sfml_polygon.setFillColor(Color::Blue);
+
+                        for (int index = 0; index < number_of_vertices; index++)
                         {
-                            Vertex(box2d_position_to_sfml_position(start, window_height, scale), Color::Green),
-                            Vertex(box2d_position_to_sfml_position(end, window_height, scale), Color::Green),
-                        };
+                            sfml_polygon.setPoint
+                            (
+                                index,
+                                box2d_position_to_sfml_position(b2Mul(body_transform, box2d_polygon->m_vertices[index]), window_height, scale)
+                            );
+                        }
 
-                        window.draw(line, 2, Lines);
+                        window.draw(sfml_polygon);
                     }
                     else
-                        if (shape_type == b2Shape::e_polygon)
+                        if (shape_type == b2Shape::e_chain)
                         {
                             // Se toma la forma poligonal de Box2D (siempre es convexa) y se crea a partir de sus vértices un
                             // ConvexShape de SFML. Cada vértice de Box2D hay que transformarlo usando el transform del body.
 
-                            b2PolygonShape* box2d_polygon = dynamic_cast<b2PolygonShape*>(fixture->GetShape());
+                            b2ChainShape* box2d_polygon = dynamic_cast<b2ChainShape*>(fixture->GetShape());
                             ConvexShape       sfml_polygon;
 
                             int number_of_vertices = box2d_polygon->m_count;

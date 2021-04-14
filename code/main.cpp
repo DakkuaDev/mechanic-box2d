@@ -12,6 +12,7 @@
 #include "Render.h"
 #include "WorldGenerator.h"
 #include "Shape.h"
+#include "Entity.h"
 
 using namespace std;
 using namespace physics; // Encapsulación de Box 2D 

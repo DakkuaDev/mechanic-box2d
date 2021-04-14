@@ -68,7 +68,7 @@ namespace physics
         return body;
     }
 
-    b2Body* create_triangle(b2World& physics_world, b2BodyType body_type, float x, float y, float width, float height)
+    b2Body* create_triangle(b2World& physics_world, b2BodyType body_type, float x, float y)
     {
         // Se crea el body a partir de una definición de sus características:
 
@@ -92,6 +92,45 @@ namespace physics
         int32 count = 3;
 
         body_shape.Set(vertices, count);
+
+        b2FixtureDef body_fixture;
+
+        body_fixture.shape = &body_shape;
+        body_fixture.density = 1.00f;
+        body_fixture.restitution = 0.50f;
+        body_fixture.friction = 0.50f;
+
+
+        body->CreateFixture(&body_fixture);
+
+        return body;
+    }
+
+    b2Body* create_chain(b2World& physics_world, b2BodyType body_type, float x, float y)
+    {
+        // Se crea el body a partir de una definición de sus características:
+
+        b2BodyDef body_definition;
+
+        body_definition.type = body_type;
+        body_definition.position.Set(x, y);                                    // Posición inicial absoluta
+
+        b2Body* body = physics_world.CreateBody(&body_definition);
+
+        // Se añande una fixture al body:
+
+        b2ChainShape body_shape;
+
+        b2Vec2 vertices[4];
+
+        vertices[0].Set(0.0f, 1.33f);
+        vertices[1].Set(1.66f, 1.33f);
+        vertices[2].Set(2.66f, 0.33f);
+        vertices[3].Set(6.f, 0.33f);
+
+        int32 count = 4;
+
+        body_shape.CreateLoop(vertices, count);
 
         b2FixtureDef body_fixture;
 

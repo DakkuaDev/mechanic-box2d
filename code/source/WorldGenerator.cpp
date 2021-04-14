@@ -28,7 +28,7 @@ namespace physics
         // Estáticos (Izquierda a derecha)
         create_box(*physics_world, b2_staticBody, 2.20f, -0.2f, 1.1f, 0.75f);
         create_box(*physics_world, b2_staticBody, 6.85f, -0.75f, 3.5f, 0.20f);
-        create_triangle(*physics_world, b2_staticBody, 3.35f, -0.5f, 1, 1);
+        create_triangle(*physics_world, b2_staticBody, 3.35f, -0.5f);
 
         // Kinemáticos
         create_box(*physics_world, b2_kinematicBody, 11.65f, -0.75f, 1.25f, 0.20f);

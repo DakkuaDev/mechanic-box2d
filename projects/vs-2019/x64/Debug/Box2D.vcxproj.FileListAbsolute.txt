@@ -1,0 +1,3 @@
+D:\Dev\BitBucket\angel-esne-c-animation-examples\2D\6 box2d intro\projects\vs-2019\x64\Debug\Box2D.exe
+D:\Dev\VisualStudio\mechanic-3d-animation\projects\vs-2019\x64\Debug\Mechanism-3D_Animation.exe
+D:\Dev\VisualStudio\mechanic-2dbox\projects\vs-2019\x64\Debug\Mechanism-3D_Animation.exe
