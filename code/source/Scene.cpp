@@ -23,6 +23,8 @@ namespace Graphics
         case 0: 
             run_test_scene();
             break;
+        case 1:
+            run_exercise_scene();
             
         default:
             break;
@@ -40,6 +42,50 @@ namespace Graphics
 
         Physics::Entity entity3(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5, 5, 1, 1);
         entity3.build_body();
+    }
+
+    void Scene::run_exercise_scene()
+    {
+        // JUGADOR
+        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25, 0.25);
+
+        // PLATAFORMAS
+        Physics::Entity platform_1(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65f, -0.75f, 1.25f, 0.20f);
+        Physics::Entity platform_2(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 4.5f, 2.5f, 1.10f, 0.20f);
+
+        // ESCENARIO
+        // --------- Piso Inferior ----------------
+
+        // Estáticos (Izquierda a derecha)
+        Physics::Entity floor_1(*physics_world, b2_staticBody, Body_Shape::Polygon, 2.20f, -0.2, 1.1f, 0.75f);
+        Physics::Entity floor_2(*physics_world, b2_staticBody, Body_Shape::Polygon, 6.85f, -0.75f, 3.5f, 0.20f);
+        Physics::Entity floor_3(*physics_world, b2_staticBody, Body_Shape::Triangle, 3.35f, -0.5f, 1, 1);
+
+        // --------- Piso Superior ----------------
+
+        // Estáticos (Derecha a izquierda)
+        Physics::Entity floor_4(*physics_world, b2_staticBody, Body_Shape::Polygon, 9.38f, 4.35f, 0.85f, 0.20f);
+        Physics::Entity floor_5(*physics_world, b2_staticBody, Body_Shape::Polygon, 7.65f, 3.5f, 1.4f, 0.15f);
+        Physics::Entity floor_6(*physics_world, b2_staticBody, Body_Shape::Polygon, 6.20f, 2.5f, 0.55f, 0.20f);
+
+
+        // Construimos los cuerpos
+
+        player.build_body();
+
+        platform_1.build_body();
+        platform_2.build_body();
+
+        floor_1.build_body();
+        floor_2.build_body();
+        floor_3.build_body();
+        floor_4.build_body();
+        floor_5.build_body();
+        floor_6.build_body();
+        
+        // Roto uno de los cuerpos 45 grados
+        floor_5.get_body()->SetTransform(floor_5.get_body()->GetPosition(), 95.f);
+   
     }
 
     void Scene::update(b2World& _physics_world, float _delta_time)

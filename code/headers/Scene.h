@@ -45,6 +45,8 @@ namespace Graphics
         /// </summary>
         void run_test_scene();
 
+        void run_exercise_scene();
+
         /// <summary>
         /// Bucle principal de la escena. Llama a las físicas y luego al dibujado de sprites
         /// </summary>

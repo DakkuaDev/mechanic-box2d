@@ -49,6 +49,13 @@ namespace Physics
 
     public:
 
+        b2Body* get_body()
+        {
+            return body;
+        }
+
+    public:
+
         /// <summary>
         /// Contruye el cuerpo añadiéndole fixtures y propiedades
         /// </summary>

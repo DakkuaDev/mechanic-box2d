@@ -97,7 +97,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\code\headers\Scene.h" />
     <ClInclude Include="..\..\code\headers\Shape.h" />
-    <ClInclude Include="..\..\code\headers\Render.h" />
     <ClInclude Include="..\..\code\headers\World.h" />
     <ClInclude Include="..\..\code\headers\WorldGenerator.h" />
     <ClInclude Include="..\..\code\source\Entity.h" />
