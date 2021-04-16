@@ -15,6 +15,7 @@
 
 #include "World.h"
 #include "Entity.h"
+#include "Scene.h"
 
 using namespace std;
 
@@ -24,12 +25,10 @@ using namespace drawing;
 
 // Método POO, ordenado
 using namespace Physics; // classes: World, Entity (Box2D PHYSICS)
+using namespace Graphics;
 
 const int WIDTH = 1200;
 const int HEIGHT = 720;
-
-class Entity;
-class World;
 
 int main ()
 {
@@ -43,14 +42,12 @@ int main ()
     view.reset(sf::FloatRect(100, 100, WIDTH, HEIGHT));
     window.setView(view);
 
-    // Creo el mundo físico
+
+    // Creo el mundo (donde se van a gestionar las físicas)
     Physics::World physics_world;
 
-    Physics::Entity entity1 (*(physics_world.get_world()), b2_staticBody, Body_Shape::Triangle, 2, 2, 0.5, 0.5);
-    entity1.build_body();
-
-    Physics::Entity entity2(*(physics_world.get_world()), b2_dynamicBody, Body_Shape::Polygon, 3.5, 2, 1, 0.5);
-    entity2.build_body();
+    // Creo la escena de mundo, la cual va a ser visualizada en el viewport
+    Graphics::Scene scene(*physics_world.get_world(), 0);
 
     const float physics_to_graphics_scale = 100.f;      // Escala para pasar de unidades de física a unidades de gráficos
 
@@ -80,16 +77,15 @@ int main ()
 
         // Update:
         
-        //physics_world->Step(delta_time, 8, 4);
-        // DONT WORK
         physics_world.get_world()->Step(delta_time, 8, 4);
+        // DONT WORK
+        //scene.update(*physics_world.get_world(), delta_time);
 
         // Render:
 
         window.clear ();
 
-        //render(*physics_world, window, physics_to_graphics_scale);
-        // DONT WORK
+        //scene.render(physics_to_graphics_scale);
         render (*physics_world.get_world(), window, physics_to_graphics_scale);
 
         window.display ();

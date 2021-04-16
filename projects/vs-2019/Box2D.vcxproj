@@ -89,11 +89,13 @@
     <ClCompile Include="..\..\code\main.cpp" />
     <ClCompile Include="..\..\code\source\Entity.cpp" />
     <ClCompile Include="..\..\code\source\Render.cpp" />
+    <ClCompile Include="..\..\code\source\Scene.cpp" />
     <ClCompile Include="..\..\code\source\Shape.cpp" />
     <ClCompile Include="..\..\code\source\World.cpp" />
     <ClCompile Include="..\..\code\source\WorldGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\code\headers\Scene.h" />
     <ClInclude Include="..\..\code\headers\Shape.h" />
     <ClInclude Include="..\..\code\headers\Render.h" />
     <ClInclude Include="..\..\code\headers\World.h" />
