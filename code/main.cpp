@@ -9,22 +9,32 @@
 #include <memory>
 #include <vector>
 
-#include "Render.h"
 #include "WorldGenerator.h"
+#include "Render.h"
 #include "Shape.h"
+
+#include "World.h"
 #include "Entity.h"
 
 using namespace std;
-using namespace physics; // Encapsulación de Box 2D 
-using namespace drawing; // Encapsulación de SFML
+
+// Método hardcoreado (old)
+using namespace physics; 
+using namespace drawing; 
+
+// Método POO, ordenado
+using namespace Physics; // classes: World, Entity (Box2D PHYSICS)
 
 const int WIDTH = 1200;
 const int HEIGHT = 720;
 
+class Entity;
+class World;
 
 int main ()
 {
 
+    // Creo la ventana
     RenderWindow window(VideoMode(WIDTH, HEIGHT), "Mechanism - 3D Animation. Daniel Guerra Gallardo", Style::Titlebar | Style::Close, ContextSettings(32));
     window.setVerticalSyncEnabled(true);
 
@@ -33,7 +43,14 @@ int main ()
     view.reset(sf::FloatRect(100, 100, WIDTH, HEIGHT));
     window.setView(view);
 
-    auto  physics_world = create_physics_world ();
+    // Creo el mundo físico
+    Physics::World physics_world;
+
+    Physics::Entity entity1 (*(physics_world.get_world()), b2_staticBody, Body_Shape::Triangle, 2, 2, 0.5, 0.5);
+    entity1.build_body();
+
+    Physics::Entity entity2(*(physics_world.get_world()), b2_dynamicBody, Body_Shape::Polygon, 3.5, 2, 1, 0.5);
+    entity2.build_body();
 
     const float physics_to_graphics_scale = 100.f;      // Escala para pasar de unidades de física a unidades de gráficos
 
@@ -62,14 +79,18 @@ int main ()
         }
 
         // Update:
-
-        physics_world->Step (delta_time, 8, 4);
+        
+        //physics_world->Step(delta_time, 8, 4);
+        // DONT WORK
+        physics_world.get_world()->Step(delta_time, 8, 4);
 
         // Render:
 
         window.clear ();
 
-        render (*physics_world, window, physics_to_graphics_scale);
+        //render(*physics_world, window, physics_to_graphics_scale);
+        // DONT WORK
+        render (*physics_world.get_world(), window, physics_to_graphics_scale);
 
         window.display ();
 

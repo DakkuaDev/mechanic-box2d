@@ -12,7 +12,7 @@
 
 using namespace std;
 
-namespace
+namespace Physics
 {
 
     class World
@@ -26,6 +26,11 @@ namespace
         World(b2Vec2 _gravity);
 
     public:
+
+        /// <summary>
+        ///  Obtiene una instancia singleton del mundo
+        /// </summary>
+        /// <returns> devuelve un puntero a b2World </returns>
         b2World* get_world();
     };
 }

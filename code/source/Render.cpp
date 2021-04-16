@@ -9,7 +9,7 @@
 
 namespace drawing
 {
-    void render(b2World& physics_world, RenderWindow& window, float scale)
+    void render (b2World& physics_world, RenderWindow& window, float scale)
     {
         // Se cachea el alto de la ventana en una variable local:
 

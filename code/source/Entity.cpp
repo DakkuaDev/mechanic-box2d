@@ -8,111 +8,68 @@
 
 #include "Entity.h"
 
-using namespace sf;
 using namespace std;
 
-class World;
-
-namespace 
+namespace Physics
 {
-    class Entity
+
+    Entity::Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape)
+        : world(&_world), body_type(_body_type), body_shape(_body_shape) {}
+
+
+    Entity::Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape, float _cordX, float _cordY, float _width, float _height)
+        : world(&_world), body_type(_body_type), body_shape(_body_shape), cordX(_cordX), cordY(_cordY), width(_width), height(_height) {}
+
+
+    void Entity::build_body(float density, float restitution, float friction)
     {
+        // body definition
+        body_definition.type = body_type;
+        body_definition.position.Set(cordX, cordY);
 
-    private:
+        // lo añado al mundo
+        body = world->CreateBody(&body_definition);
 
+        // genero el body en base a su BodyShape
+        generate_body(body_shape, width, height);
 
-        enum Body_Shape
+        // le añado fixtures
+        body_fixture.density = density;
+        body_fixture.restitution = restitution;
+        body_fixture.friction = friction;
+
+        body->CreateFixture(&body_fixture);
+    }
+
+    void Entity::generate_body(Body_Shape _body_shape, float w, float h)
+    {
+        if (_body_shape == Body_Shape::Polygon)
         {
-            Polygon,
-            Triangle,
-            Circle,
-        };
+            body_fixture.shape = &polygon_shape;
 
-        World world;
-
-        b2Body* body;
-        b2BodyDef body_definition;
-        b2FixtureDef body_fixture;
-
-        float cordX = 0, cordY = 0;
-        float width = 1, height = 1;
-        float radius = 1;
-
-    public:
-        Entity(b2BodyType _body_type, Body_Shape _body_shape)
-        {   
-            // body definition
-            body_definition.type = _body_type;
-            body_definition.position.Set(cordX, cordY);
-
-            // get into world
-            body = world.get_world()->CreateBody(&body_definition);
-
-            // generate body
-            generate_body(_body_shape, width, height);
-
-            // adding fixture
-            body_fixture.density = 1.00f;
-            body_fixture.restitution = 0.75f;
-            body_fixture.friction = 0.50f;
-
-            body->CreateFixture(&body_fixture);
-
+            polygon_shape.SetAsBox(width, height);
         }
-        Entity(b2BodyType _body_type, Body_Shape _body_shape, float _cordX, float _cordY, float _width, float _height)
+        else if (_body_shape == Body_Shape::Triangle)
         {
-            // body definition
-            body_definition.type = _body_type;
-            body_definition.position.Set(_cordX, _cordY);
+            body_fixture.shape = &polygon_shape;
 
-            // get into world
-            body = world.get_world()->CreateBody(&body_definition);
+            b2Vec2 vertices[3];
 
-            // generate body
-            generate_body(_body_shape, _width, _height);
+            vertices[0].Set(0.0f, 0.0f);
+            vertices[1].Set(1.0f, 0.0f);
+            vertices[2].Set(0.0f, 1.0f);
 
-            // adding fixture
-            body_fixture.density = 1.00f;
-            body_fixture.restitution = 0.75f;
-            body_fixture.friction = 0.50f;
+            int32 count = 3;
 
-            body->CreateFixture(&body_fixture);
+            polygon_shape.Set(vertices, count);
         }
-
-    private:
-
-        void generate_body(Body_Shape _body_shape, float w, float h)
+        else if (_body_shape == Body_Shape::Circle)
         {
-            if (_body_shape == Body_Shape::Polygon)
-            {
-                b2PolygonShape body_shape;
-                body_fixture.shape = &body_shape;
+            body_fixture.shape = &circle_shape;
 
-                body_shape.SetAsBox(width, height);
-            }
-            else if (_body_shape == Body_Shape::Triangle)
-            {
-                b2PolygonShape body_shape;
-                body_fixture.shape = &body_shape;
-
-                b2Vec2 vertices[3];
-
-                vertices[0].Set(0.0f, 0.0f);
-                vertices[1].Set(1.0f, 0.0f);
-                vertices[2].Set(0.0f, 1.0f);
-
-                int32 count = 3;
-
-                body_shape.Set(vertices, count);
-            }
-            else if (_body_shape == Body_Shape::Circle)
-            {
-                b2CircleShape body_shape;
-                body_fixture.shape = &body_shape;
-
-                body_shape.m_radius = radius;
-            }
+            circle_shape.m_radius = radius;
         }
+    }
 
-    };
+    
 }

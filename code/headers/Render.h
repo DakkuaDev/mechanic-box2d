@@ -10,6 +10,8 @@
 #include <Box2D/Box2D.h>
 #include <SFML/Graphics.hpp>
 
+#include "World.h"
+
 using namespace sf;
 using namespace std;
 
