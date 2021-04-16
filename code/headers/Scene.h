@@ -27,10 +27,9 @@ namespace Graphics
     private:
 
         b2World* physics_world;
-        //sf::RenderWindow* window;
 
-        int scene_id;
-        float delta_time;
+        int scene_id;                           // Identificador de escena 
+        float delta_time;                       // Refresco del bucle
 
     public:
 
@@ -40,7 +39,15 @@ namespace Graphics
         void scene_init();
 
     public:
-        void run_scene1();
+
+        /// <summary>
+        /// Escena de prueba
+        /// </summary>
+        void run_test_scene();
+
+        /// <summary>
+        /// Bucle principal de la escena. Llama a las físicas y luego al dibujado de sprites
+        /// </summary>
         void update(b2World& _physics_world, float _delta_time);
 
         /** En Box2D las coordenadas Y crecen hacia arriba y en SFML crecen hacia abajo desde el borde superior.
@@ -51,7 +58,12 @@ namespace Graphics
             return Vector2f(box2d_position.x * scale, window_height - box2d_position.y * scale);
         }
 
-        // Renderiza la escena
+        /// <summary>
+        /// Renderizado de escena en el viewport
+        /// <param name="physics_world"> instancia de b2World del mundo físico </param>
+        /// <param name="window"> ventana del viewport de la aplicación </param>
+        /// <param name="scale"> factor de escanal entre las unidades de sfml (renderizado) y box2d (fisicas) </param>
+        /// </summary>
         void render(b2World& physics_world, RenderWindow& window, float scale);
     };
    

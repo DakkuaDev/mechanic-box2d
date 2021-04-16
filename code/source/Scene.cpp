@@ -21,7 +21,7 @@ namespace Graphics
         switch (scene_id)
         {
         case 0: 
-            run_scene1();
+            run_test_scene();
             break;
             
         default:
@@ -30,13 +30,16 @@ namespace Graphics
         
     }
 
-    void Scene::run_scene1()
+    void Scene::run_test_scene()
     {
         Physics::Entity entity1(*physics_world, b2_staticBody, Body_Shape::Triangle, 2, 2, 0.5, 0.5);
         entity1.build_body();
 
-        Physics::Entity entity2(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 3.5, 2, 1, 0.5);
+        Physics::Entity entity2(*physics_world, b2_staticBody, Body_Shape::Polygon, 5, 2, 1, 0.5);
         entity2.build_body();
+
+        Physics::Entity entity3(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5, 5, 1, 1);
+        entity3.build_body();
     }
 
     void Scene::update(b2World& _physics_world, float _delta_time)

@@ -76,17 +76,16 @@ int main ()
         }
 
         // Update:
-        
+
         physics_world.get_world()->Step(delta_time, 8, 4);
-        // DONT WORK
+        // DONT WORK ???
         //scene.update(*physics_world.get_world(), delta_time);
 
         // Render:
 
         window.clear ();
 
-        //scene.render(physics_to_graphics_scale);
-        render (*physics_world.get_world(), window, physics_to_graphics_scale);
+        scene.render(*physics_world.get_world(), window, physics_to_graphics_scale);
 
         window.display ();
 
