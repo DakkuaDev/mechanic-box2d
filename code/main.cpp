@@ -9,23 +9,15 @@
 #include <memory>
 #include <vector>
 
-#include "WorldGenerator.h"
-#include "Render.h"
-#include "Shape.h"
-
 #include "World.h"
 #include "Entity.h"
 #include "Scene.h"
 
 using namespace std;
 
-// Método hardcoreado (old)
-using namespace physics; 
-using namespace drawing; 
-
-// Método POO, ordenado
-using namespace Physics; // classes: World, Entity (Box2D PHYSICS)
-using namespace Graphics;
+// Método POO - Estructura tipo engine
+using namespace Physics;  // classes: World, Entity (Box2D - Físicas)
+using namespace Graphics; // clases: Scene (SFML - Gráficos)
 
 const int WIDTH = 1200;
 const int HEIGHT = 720;
@@ -41,7 +33,6 @@ int main ()
     View view;
     view.reset(sf::FloatRect(100, 100, WIDTH, HEIGHT));
     window.setView(view);
-
 
     // Creo el mundo (donde se van a gestionar las físicas)
     Physics::World physics_world;

@@ -16,6 +16,9 @@ namespace Physics
     Entity::Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape)
         : world(&_world), body_type(_body_type), body_shape(_body_shape) {}
 
+    Entity::Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape, float _cordX, float _cordY, float _radius)
+        : world(&_world), body_type(_body_type), body_shape(_body_shape), cordX(_cordX), cordY(_cordY), radius (_radius) {}
+
 
     Entity::Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape, float _cordX, float _cordY, float _width, float _height)
         : world(&_world), body_type(_body_type), body_shape(_body_shape), cordX(_cordX), cordY(_cordY), width(_width), height(_height) {}

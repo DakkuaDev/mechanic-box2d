@@ -47,7 +47,7 @@ namespace Graphics
     void Scene::run_exercise_scene()
     {
         // JUGADOR
-        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25, 0.25);
+        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25);
 
         // PLATAFORMAS
         Physics::Entity platform_1(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65f, -0.75f, 1.25f, 0.20f);

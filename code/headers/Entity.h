@@ -45,6 +45,7 @@ namespace Physics
 
     public:
         Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape);
+        Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape, float _cordX, float _cordY, float _radius);
         Entity(b2World& _world, b2BodyType _body_type, Body_Shape _body_shape, float _cordX, float _cordY, float _width, float _height);
 
     public:
@@ -73,6 +74,6 @@ namespace Physics
         /// <param name="h"> alto del cuerpo generado</param>
         void generate_body(Body_Shape _body_shape, float w, float h);
 
-
+        // TODO: Obtener el color y otras propiedades de sfml asociadas a cada entidad
     };
 }
