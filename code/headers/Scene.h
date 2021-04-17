@@ -10,12 +10,15 @@
 #include "World.h"
 #include "Entity.h"
 #include "Joint.h"
+#include "CollisionHandle.h"
 
 #include <SFML/Graphics.hpp>
 
 class Entity;
 class World;
 class Joint;
+class CollisionHandle;
+
 
 using namespace sf;
 using namespace std;
@@ -28,10 +31,15 @@ namespace Graphics
     {
     private:
 
+        Physics::Entity* player = nullptr;
+
         b2World* physics_world = nullptr;
 
         int scene_id;                           // Identificador de escena 
         float delta_time;                       // Refresco del bucle
+
+    public:
+        bool collision = false;
 
     public:
 
@@ -47,7 +55,12 @@ namespace Graphics
         /// </summary>
         void run_test_scene();
 
+        /// <summary>
+        /// Escena del escenario final
+        /// </summary>
         void run_exercise_scene();
+
+        void collision_test();
 
         /// <summary>
         /// Bucle principal de la escena. Llama a las físicas y luego al dibujado de sprites

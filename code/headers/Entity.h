@@ -63,6 +63,14 @@ namespace Physics
         /// <param name="friction"> Coeficiente de fricción del body</param>
         void build_body(float density = 1.00f, float restitution = 0.75f, float friction = 0.50);
 
+        /// <summary>
+        /// Crea una escucha necesaria para registrar eventos de colisiones sobre la entidad
+        /// </summary>
+        inline void set_userdata()
+        {
+            body->GetUserData().pointer = reinterpret_cast<uintptr_t>(this);
+        }
+
     private:
         /// <summary>
         /// En base a su BodyShape, se genera la forma del cuerpo que luego se van a dibujar

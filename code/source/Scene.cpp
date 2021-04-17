@@ -69,15 +69,16 @@ namespace Graphics
 
     void Scene::run_exercise_scene()
     {
+
         // JUGADOR
-        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25);
+        Physics::Entity _player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25);
+        player = &_player;
 
         // PLATAFORMAS
         Physics::Entity platform_1(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65f, -0.75f, 1.25f, 0.20f);
         Physics::Entity platform_2(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 4.5f, 2.5f, 1.10f, 0.20f);
 
         // MECANISMOS
-
         // ----------- Trasnbordador --------------
         Physics::Entity wheel1(*physics_world, b2_dynamicBody, Body_Shape::Circle, 1.7, 1.7, 0.2);
         wheel1.build_body(1, 0.2, 0.5);
@@ -100,6 +101,8 @@ namespace Graphics
         car_joint3.generate_joint(Joint_Type::Revolute, 5, 1, 0);
         Physics::Joint car_joint4(*physics_world, *car.get_body(), *car_d.get_body());
         car_joint4.generate_joint(Joint_Type::Revolute, 5, 1, 0);
+
+        //car.get_body()->ApplyForce(b2Vec2 (15, 0), car.get_body()->GetWorldCenter(), true);
 
         // -------------- Rotor ------------------
         Physics::Entity rotor_engine(*physics_world, b2_staticBody, Body_Shape::Circle, 1.15, 1.05, 0.1);
@@ -127,13 +130,18 @@ namespace Graphics
         Physics::Entity floor_5(*physics_world, b2_staticBody, Body_Shape::Polygon, 7.65f, 3.5f, 1.4f, 0.15f);
         Physics::Entity floor_6(*physics_world, b2_staticBody, Body_Shape::Polygon, 6.20f, 2.5f, 0.55f, 0.20f);
 
+        Physics::Entity wall_d(*physics_world, b2_staticBody, Body_Shape::Polygon, 13.25, 2.5f, 0.25f, 10);
 
-        // Construimos los cuerpos
 
-        player.build_body(1, 0.3, 0.25);
+        // Construimos los cuerpos y creamos el perfil de datos
+
+        _player.build_body(1, 0.3, 0.25);
+        _player.set_userdata();
 
         platform_1.build_body();
         platform_2.build_body();
+        platform_1.set_userdata();
+        platform_2.set_userdata();
 
         floor_1.build_body();
         floor_2.build_body();
@@ -141,15 +149,26 @@ namespace Graphics
         floor_4.build_body();
         floor_5.build_body();
         floor_6.build_body();
+
+        wall_d.build_body();
         
-        // Roto uno de los cuerpos 45 grados
+        // Trasformaciones de giro
         floor_5.get_body()->SetTransform(floor_5.get_body()->GetPosition(), 95.f);
+
+        // Colisiones (DONT WORK!!)
+        //Physics::CollisionHandle contact_listener;
+        //physics_world->SetContactListener(&contact_listener);
    
+    }
+
+    void Scene::collision_test()
+    {
+        // TODO
     }
 
     void Scene::update(b2World& _physics_world, float _delta_time)
     {
-        physics_world->Step(delta_time, 8, 4);
+        //physics_world->Step(delta_time, 8, 4);
     }
 
     void Scene::render(b2World& physics_world, RenderWindow& window, float scale)
