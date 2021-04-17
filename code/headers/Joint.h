@@ -43,7 +43,27 @@ namespace Physics
 
     public:
 
-        void generate_joint(Joint_Type type, float _length = 10);
+        /// <summary>
+        /// Crea una unión entre dos cuerpos
+        /// <param name="type"> tipo de unión. Distance = 1, Revolute = 2 </param>
+        /// <param name="_length"> fuerza de distancia entre entidades </param>
+        /// <param name="_stiffness"> parámetro que tiene que ver con el componente de resorte entre uniones </param>
+        /// <param name="_damping"> parámetro que tiene que ver con el componente de resorte entre uniones </param>
+        /// <param name="_enable_motor"> hacer que la unión sea capaz de actuar como componente mecánico (motor) </param>
+        /// <param name="_motor_speed"> velocidad del motor </param>
+        /// <param name="_max_motor_torque"> fuerza del motor </param>
+        /// </summary>
+        void generate_joint
+        (
+            Joint_Type type, 
+            float _length = 10, 
+            float _stiffness = 3, 
+            float _damping = 0.1, 
+            bool _enable_motor = 
+            false, float _motor_speed = 0.0f, 
+            float _max_motor_torque = 10.0f
+        );
+
 
     };
 }

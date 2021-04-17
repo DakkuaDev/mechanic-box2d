@@ -35,16 +35,36 @@ namespace Graphics
     void Scene::run_test_scene()
     {
 
-        Physics::Entity entity1(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5, 5, 0.3);
-        entity1.build_body(1, 0.2, 0.5);
-        Physics::Entity entity2(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5.1, 4, 0.3);
-        entity2.build_body(1, 0.2, 0.5);
+        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 6.2, 8, 0.25);
+        player.build_body(1, 0.2, 0.5);
 
-        Physics::Entity entity4(*physics_world, b2_staticBody, Body_Shape::Polygon, 6, 0, 10, 0.5);
-        entity4.build_body();
+        Physics::Entity triangle(*physics_world, b2_staticBody, Body_Shape::Triangle, 4.5, 0.5, 0.25);
+        triangle.build_body(1, 0.05, 0.5);
 
-        Physics::Joint joint(*physics_world, *entity1.get_body(), *entity2.get_body());
-        joint.generate_joint(Joint_Type::Distance);
+        Physics::Entity wheel1(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5, 5, 0.2);
+        wheel1.build_body(1, 0.2, 0.5);
+        Physics::Entity wheel2(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5.6, 5, 0.2);
+        wheel2.build_body(1, 0.2, 0.5);
+
+        Physics::Entity car(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 5.3, 5.40, 0.6, 0.10);
+        car.build_body(1, 0.2, 0.5);
+        Physics::Entity car_i(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 4.75, 5.60, 0.05, 0.3);
+        car_i.build_body(1, 0.2, 0.5);
+        Physics::Entity car_d(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 5.85, 5.60, 0.05, 0.3);
+        car_d.build_body(1, 0.2, 0.5);
+
+        Physics::Entity floor(*physics_world, b2_staticBody, Body_Shape::Polygon, 6, 0, 10, 0.5);
+        floor.build_body();
+
+        Physics::Joint joint1(*physics_world, *wheel1.get_body(), *car.get_body());
+        joint1.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
+        Physics::Joint joint2(*physics_world, *wheel2.get_body(), *car.get_body());
+        joint2.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
+        Physics::Joint joint3(*physics_world, *car.get_body(), *car_i.get_body());
+        joint3.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
+        Physics::Joint joint4(*physics_world, *car.get_body(), *car_d.get_body());
+        joint4.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
+
     }
 
     void Scene::run_exercise_scene()
@@ -55,6 +75,42 @@ namespace Graphics
         // PLATAFORMAS
         Physics::Entity platform_1(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65f, -0.75f, 1.25f, 0.20f);
         Physics::Entity platform_2(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 4.5f, 2.5f, 1.10f, 0.20f);
+
+        // MECANISMOS
+
+        // ----------- Trasnbordador --------------
+        Physics::Entity wheel1(*physics_world, b2_dynamicBody, Body_Shape::Circle, 1.7, 1.7, 0.2);
+        wheel1.build_body(1, 0.2, 0.5);
+        Physics::Entity wheel2(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2.3, 1.7, 0.2);
+        wheel2.build_body(1, 0.2, 0.5);
+
+        Physics::Entity car(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 2, 2.1, 0.6, 0.10);
+        car.build_body(1, 0.2, 0.5);
+        Physics::Entity car_i(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 1.45, 2.3, 0.05, 0.3);
+        car_i.build_body(1, 0.2, 0.5);
+        Physics::Entity car_d(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 2.55, 2.3, 0.05, 0.3);
+        car_d.build_body(1, 0.2, 0.5);
+
+        // Joints
+        Physics::Joint car_joint1(*physics_world, *wheel1.get_body(), *car.get_body());
+        car_joint1.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
+        Physics::Joint car_joint2(*physics_world, *wheel2.get_body(), *car.get_body());
+        car_joint2.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
+        Physics::Joint car_joint3(*physics_world, *car.get_body(), *car_i.get_body());
+        car_joint3.generate_joint(Joint_Type::Revolute, 5, 1, 0);
+        Physics::Joint car_joint4(*physics_world, *car.get_body(), *car_d.get_body());
+        car_joint4.generate_joint(Joint_Type::Revolute, 5, 1, 0);
+
+        // -------------- Rotor ------------------
+        Physics::Entity rotor_engine(*physics_world, b2_staticBody, Body_Shape::Circle, 1.15, 1.05, 0.1);
+        rotor_engine.build_body();
+        Physics::Entity rotor(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 1.25, 1.05, 0.225, 0.025);
+        rotor.build_body();
+
+        // Joints
+        Physics::Joint rotor_joint(*physics_world, *rotor_engine.get_body(), *rotor.get_body());
+        rotor_joint.generate_joint(Joint_Type::Revolute, 10, 3, 0.1, true, 12.5, 20);
+
 
         // ESCENARIO
         // --------- Piso Inferior ----------------
@@ -74,7 +130,7 @@ namespace Graphics
 
         // Construimos los cuerpos
 
-        player.build_body();
+        player.build_body(1, 0.3, 0.25);
 
         platform_1.build_body();
         platform_2.build_body();
