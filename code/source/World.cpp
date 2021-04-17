@@ -7,8 +7,6 @@
 
 #include "World.h"
 
-using namespace std;
-
 namespace Physics
 {
 

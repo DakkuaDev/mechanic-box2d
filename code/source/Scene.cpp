@@ -34,14 +34,17 @@ namespace Graphics
 
     void Scene::run_test_scene()
     {
-        Physics::Entity entity1(*physics_world, b2_staticBody, Body_Shape::Triangle, 2, 2, 0.5, 0.5);
-        entity1.build_body();
 
-        Physics::Entity entity2(*physics_world, b2_staticBody, Body_Shape::Polygon, 5, 2, 1, 0.5);
-        entity2.build_body();
+        Physics::Entity entity1(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5, 5, 0.3);
+        entity1.build_body(1, 0.2, 0.5);
+        Physics::Entity entity2(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5.1, 4, 0.3);
+        entity2.build_body(1, 0.2, 0.5);
 
-        Physics::Entity entity3(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5, 5, 1, 1);
-        entity3.build_body();
+        Physics::Entity entity4(*physics_world, b2_staticBody, Body_Shape::Polygon, 6, 0, 10, 0.5);
+        entity4.build_body();
+
+        Physics::Joint joint(*physics_world, *entity1.get_body(), *entity2.get_body());
+        joint.generate_joint(Joint_Type::Distance);
     }
 
     void Scene::run_exercise_scene()

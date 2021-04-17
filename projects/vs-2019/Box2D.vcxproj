@@ -88,10 +88,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\code\main.cpp" />
     <ClCompile Include="..\..\code\source\Entity.cpp" />
+    <ClCompile Include="..\..\code\source\Joint.cpp" />
     <ClCompile Include="..\..\code\source\Scene.cpp" />
     <ClCompile Include="..\..\code\source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\code\headers\Joint.h" />
     <ClInclude Include="..\..\code\headers\Scene.h" />
     <ClInclude Include="..\..\code\headers\World.h" />
     <ClInclude Include="..\..\code\source\Entity.h" />

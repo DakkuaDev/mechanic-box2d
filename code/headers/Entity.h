@@ -10,8 +10,6 @@
 #include <Box2D/Box2D.h>
 #include <memory>
 
-using namespace std;
-
 namespace Physics
 {
 
@@ -27,9 +25,9 @@ namespace Physics
 
     private:
 
-        b2World* world;
+        b2World* world = nullptr;
 
-        b2Body* body;
+        b2Body* body = nullptr;
         b2BodyType body_type;
         b2BodyDef body_definition;
 

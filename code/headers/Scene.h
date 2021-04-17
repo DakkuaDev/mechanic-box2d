@@ -9,11 +9,13 @@
 
 #include "World.h"
 #include "Entity.h"
+#include "Joint.h"
 
 #include <SFML/Graphics.hpp>
 
 class Entity;
 class World;
+class Joint;
 
 using namespace sf;
 using namespace std;
@@ -26,7 +28,7 @@ namespace Graphics
     {
     private:
 
-        b2World* physics_world;
+        b2World* physics_world = nullptr;
 
         int scene_id;                           // Identificador de escena 
         float delta_time;                       // Refresco del bucle

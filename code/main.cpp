@@ -38,7 +38,7 @@ int main ()
     Physics::World physics_world;
 
     // Creo la escena de mundo, la cual va a ser visualizada en el viewport
-    Graphics::Scene scene(*physics_world.get_world(), 1);
+    Graphics::Scene scene(*physics_world.get_world(), 0);
 
     const float physics_to_graphics_scale = 100.f;      // Escala para pasar de unidades de física a unidades de gráficos
 
