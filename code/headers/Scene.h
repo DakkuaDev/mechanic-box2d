@@ -33,8 +33,6 @@ namespace Graphics
     {
     private:
 
-        Physics::Entity* player = nullptr;
-
         b2World* physics_world = nullptr;
 
         int scene_id;                           // Identificador de escena 

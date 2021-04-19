@@ -26,10 +26,23 @@ namespace Physics
 
         if (entityA != NULL && entityB != NULL)
         {
+            // DONT WORK!!
             //if (entityA->get_tag() == "player" && entityB->get_tag() == "platform")
             //{
-            //    // Entro
+            //    bodyA->SetLinearVelocity({ 0, 1.5 });
             //}
+
+            // Plataformas
+            if (entityA && entityB)
+            {
+                // TODO: Crear más precisión para las plataformas. Quizá debamos ponerlas en un update de la escena
+                if (bodyA->GetPosition().y <= 3.25)
+                {
+                    bodyA->SetLinearVelocity({ 0, 1.75 });
+                }
+                else bodyA->SetLinearVelocity({ 0, 0 });
+               
+            }
         }
 
 

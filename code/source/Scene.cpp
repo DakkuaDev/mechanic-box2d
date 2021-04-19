@@ -69,11 +69,11 @@ namespace Graphics
 
     void Scene::run_exercise_scene()
     {
+        physics_world->SetContactListener(new Physics::CollisionHandle());
 
         // JUGADOR
-        Physics::Entity _player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25);
-        player = &_player;
-        _player.set_tag("player");
+        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25);
+        player.set_tag("player");
 
         // PLATAFORMAS
         Physics::Entity platform_1(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65f, -0.75f, 1.25f, 0.20f);
@@ -136,8 +136,8 @@ namespace Graphics
 
         // Construimos los cuerpos y su perfil de datos (para poder identificarlos)
 
-        _player.build_body(1, 0.3, 0.25);
-        _player.set_userdata();
+        player.build_body(1, 0.3, 0.25);
+        player.set_userdata();
 
         platform_1.build_body();
         platform_2.build_body();

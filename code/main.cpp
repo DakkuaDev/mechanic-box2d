@@ -36,7 +36,7 @@ int main ()
 
     // Creo el mundo (donde se van a gestionar las físicas)
     Physics::World physics_world;
-    physics_world.get_world()->SetContactListener(new Physics::CollisionHandle());
+    //physics_world.get_world()->SetContactListener(new Physics::CollisionHandle());
 
     // Creo la escena de mundo, la cual va a ser visualizada en el viewport
     Graphics::Scene scene(*physics_world.get_world(), 1);
