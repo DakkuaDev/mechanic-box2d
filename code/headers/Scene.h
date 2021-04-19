@@ -60,8 +60,6 @@ namespace Graphics
         /// </summary>
         void run_exercise_scene();
 
-        void collision_test();
-
         /// <summary>
         /// Bucle principal de la escena. Llama a las físicas y luego al dibujado de sprites
         /// </summary>

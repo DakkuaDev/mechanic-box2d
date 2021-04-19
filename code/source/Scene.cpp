@@ -72,7 +72,7 @@ namespace Graphics
         physics_world->SetContactListener(new Physics::CollisionHandle());
 
         // JUGADOR
-        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25);
+        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 2.8, 0.25);
         player.set_tag("player");
 
         // PLATAFORMAS
@@ -111,9 +111,17 @@ namespace Graphics
         Physics::Entity rotor(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 1.25, 1.05, 0.225, 0.025);
         rotor.build_body();
 
+        Physics::Entity rotor_engine2(*physics_world, b2_staticBody, Body_Shape::Circle, 5.15, 5.05, 0.1);
+        rotor_engine2.build_body();
+        Physics::Entity rotor2(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 5.25, 5.05, 0.5, 0.025);
+        rotor2.build_body();
+
         // Joints
         Physics::Joint rotor_joint(*physics_world, *rotor_engine.get_body(), *rotor.get_body());
         rotor_joint.generate_joint(Joint_Type::Revolute, 10, 3, 0.1, true, 12.5, 20);
+
+        Physics::Joint rotor_joint2(*physics_world, *rotor_engine2.get_body(), *rotor2.get_body());
+        rotor_joint2.generate_joint(Joint_Type::Revolute, 10, 3, 0.1, true, 12.5, 20);
 
 
         // ESCENARIO
@@ -130,6 +138,9 @@ namespace Graphics
         Physics::Entity floor_4(*physics_world, b2_staticBody, Body_Shape::Polygon, 9.38f, 4.35f, 0.85f, 0.20f);
         Physics::Entity floor_5(*physics_world, b2_staticBody, Body_Shape::Polygon, 7.65f, 3.5f, 1.4f, 0.15f);
         Physics::Entity floor_6(*physics_world, b2_staticBody, Body_Shape::Polygon, 6.20f, 2.5f, 0.55f, 0.20f);
+
+        Physics::Entity goal_1(*physics_world, b2_staticBody, Body_Shape::Polygon, 2.8, 4.f, 0.75f, 0.05f);
+        Physics::Entity goal_2(*physics_world, b2_staticBody, Body_Shape::Polygon, 1.7, 4.f, 0.75f, 0.05f);
 
         Physics::Entity wall_d(*physics_world, b2_staticBody, Body_Shape::Polygon, 13.25, 2.5f, 0.25f, 10);
 
@@ -151,19 +162,19 @@ namespace Graphics
         floor_5.build_body();
         floor_6.build_body();
 
-        // Trasformaciones de giro
-        floor_5.get_body()->SetTransform(floor_5.get_body()->GetPosition(), 95.f);
+        goal_1.build_body();
+        goal_2.build_body();
 
         wall_d.build_body();
 
+        // Trasformaciones de giro
+        floor_5.get_body()->SetTransform(floor_5.get_body()->GetPosition(), 95.f);
+        goal_1.get_body()->SetTransform(goal_1.get_body()->GetPosition(), 95.f);
+        goal_2.get_body()->SetTransform(goal_2.get_body()->GetPosition(), -95.f);
 
-          
+           
     }
 
-    void Scene::collision_test()
-    {
-        // TODO
-    }
 
     void Scene::update(b2World& _physics_world, float _delta_time)
     {

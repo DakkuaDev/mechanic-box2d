@@ -36,7 +36,7 @@ namespace Physics
             if (entityA && entityB)
             {
                 // TODO: Crear más precisión para las plataformas. Quizá debamos ponerlas en un update de la escena
-                if (bodyA->GetPosition().y <= 3.25)
+                if (bodyA->GetPosition().y <= 3.75)
                 {
                     bodyA->SetLinearVelocity({ 0, 1.75 });
                 }
@@ -44,9 +44,6 @@ namespace Physics
                
             }
         }
-
-
-
 
     }
 
