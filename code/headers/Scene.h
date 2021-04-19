@@ -12,6 +12,8 @@
 #include "Joint.h"
 #include "CollisionHandle.h"
 
+#include <string>
+
 #include <SFML/Graphics.hpp>
 
 class Entity;

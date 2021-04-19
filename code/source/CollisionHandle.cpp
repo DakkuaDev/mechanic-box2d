@@ -10,6 +10,9 @@
 namespace Physics
 {
 
+    CollisionHandle::CollisionHandle() : b2ContactListener() {}
+
+
     void CollisionHandle::BeginContact(b2Contact* contact)
     { 
         b2Fixture* fixtureA = contact->GetFixtureA();
@@ -20,6 +23,17 @@ namespace Physics
 
         Entity* entityA = (Entity*)bodyA->GetUserData().pointer;
         Entity* entityB = (Entity*)bodyB->GetUserData().pointer;
+
+        if (entityA != NULL && entityB != NULL)
+        {
+            //if (entityA->get_tag() == "player" && entityB->get_tag() == "platform")
+            //{
+            //    // Entro
+            //}
+        }
+
+
+
 
     }
 

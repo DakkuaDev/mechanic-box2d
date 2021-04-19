@@ -11,6 +11,7 @@
 
 #include "Scene.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -18,6 +19,11 @@ namespace Physics
 {
     class CollisionHandle : public b2ContactListener
     {
+
+    public:
+
+        CollisionHandle();
+
     public:
 
         /// <summary>

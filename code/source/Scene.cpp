@@ -73,10 +73,13 @@ namespace Graphics
         // JUGADOR
         Physics::Entity _player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 4, 0.25);
         player = &_player;
+        _player.set_tag("player");
 
         // PLATAFORMAS
         Physics::Entity platform_1(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65f, -0.75f, 1.25f, 0.20f);
+        platform_1.set_tag("platform");
         Physics::Entity platform_2(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 4.5f, 2.5f, 1.10f, 0.20f);
+        platform_2.set_tag("platform");
 
         // MECANISMOS
         // ----------- Trasnbordador --------------
@@ -101,8 +104,6 @@ namespace Graphics
         car_joint3.generate_joint(Joint_Type::Revolute, 5, 1, 0);
         Physics::Joint car_joint4(*physics_world, *car.get_body(), *car_d.get_body());
         car_joint4.generate_joint(Joint_Type::Revolute, 5, 1, 0);
-
-        //car.get_body()->ApplyForce(b2Vec2 (15, 0), car.get_body()->GetWorldCenter(), true);
 
         // -------------- Rotor ------------------
         Physics::Entity rotor_engine(*physics_world, b2_staticBody, Body_Shape::Circle, 1.15, 1.05, 0.1);
@@ -133,7 +134,7 @@ namespace Graphics
         Physics::Entity wall_d(*physics_world, b2_staticBody, Body_Shape::Polygon, 13.25, 2.5f, 0.25f, 10);
 
 
-        // Construimos los cuerpos y creamos el perfil de datos
+        // Construimos los cuerpos y su perfil de datos (para poder identificarlos)
 
         _player.build_body(1, 0.3, 0.25);
         _player.set_userdata();
@@ -150,15 +151,13 @@ namespace Graphics
         floor_5.build_body();
         floor_6.build_body();
 
-        wall_d.build_body();
-        
         // Trasformaciones de giro
         floor_5.get_body()->SetTransform(floor_5.get_body()->GetPosition(), 95.f);
 
-        // Colisiones (DONT WORK!!)
-        //Physics::CollisionHandle contact_listener;
-        //physics_world->SetContactListener(&contact_listener);
-   
+        wall_d.build_body();
+
+
+          
     }
 
     void Scene::collision_test()
