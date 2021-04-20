@@ -10,17 +10,15 @@
 #include "World.h"
 #include "Entity.h"
 #include "Joint.h"
-#include "CollisionHandle.h"
 
 #include <string>
+#include <map>
 
 #include <SFML/Graphics.hpp>
 
 class Entity;
 class World;
 class Joint;
-class CollisionHandle;
-
 
 using namespace sf;
 using namespace std;
@@ -29,23 +27,29 @@ using namespace Physics;
 namespace Graphics
 {
 
-    class Scene
+    class Scene : public b2ContactListener
     {
     private:
+
+        map <string, unique_ptr<Physics::Entity>> entities;
 
         b2World* physics_world = nullptr;
 
         int scene_id;                           // Identificador de escena 
         float delta_time;                       // Refresco del bucle
 
+      
     public:
-        bool collision = false;
+        //flags
+        bool platform1_moving = false;
+        bool platform2_moving = false;
 
     public:
 
         Scene(b2World& _physics_world, int _scene_id);
 
     private:
+
         void scene_init();
 
     public:
@@ -65,6 +69,7 @@ namespace Graphics
         /// </summary>
         void update(b2World& _physics_world, float _delta_time);
 
+
         /** En Box2D las coordenadas Y crecen hacia arriba y en SFML crecen hacia abajo desde el borde superior.
         * Esta función se encarga de convertir el sistema de coordenadas para que la escena no se vea invertida.
         */
@@ -80,6 +85,13 @@ namespace Graphics
         /// <param name="scale"> factor de escanal entre las unidades de sfml (renderizado) y box2d (fisicas) </param>
         /// </summary>
         void render(b2World& physics_world, RenderWindow& window, float scale);
+
+        /// <summary>
+        /// Registra una colisión entrante
+        /// </summary>
+        /// <param name="contact"> contacto que se produce entre fixtures de cuerpos </param>
+        void BeginContact(b2Contact* contact);
+
     };
    
 }

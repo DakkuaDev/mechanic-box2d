@@ -16,7 +16,7 @@
 using namespace std;
 
 // Método POO - Estructura tipo engine
-using namespace Physics;  // classes: World, Entity (Box2D - Físicas)
+using namespace Physics;  // classes: World, Entity, Joint (Box2D - Físicas)
 using namespace Graphics; // clases: Scene (SFML - Gráficos)
 
 const int WIDTH = 1200;
@@ -36,12 +36,11 @@ int main ()
 
     // Creo el mundo (donde se van a gestionar las físicas)
     Physics::World physics_world;
-    //physics_world.get_world()->SetContactListener(new Physics::CollisionHandle());
 
     // Creo la escena de mundo, la cual va a ser visualizada en el viewport
     Graphics::Scene scene(*physics_world.get_world(), 1);
 
-    const float physics_to_graphics_scale = 100.f;      // Escala para pasar de unidades de física a unidades de gráficos
+    const float physics_to_graphics_scale = (WIDTH * HEIGHT * 100.f) / 864000;      // Escala para pasar de unidades de física a unidades de gráficos según el tamaño de ventana
 
     const float target_fps  = 60.f;                     // Cuántos fotogramas por segundo se busca conseguir
     const float target_time = 1.f / target_fps;         // Duración en segundos de un fotograma a la tasa deseada
@@ -70,8 +69,7 @@ int main ()
         // Update:
 
         physics_world.get_world()->Step(delta_time, 8, 4);
-        // DONT WORK ???
-        //scene.update(*physics_world.get_world(), delta_time);
+        scene.update(*physics_world.get_world(), delta_time);
 
         // Render:
 
@@ -93,7 +91,8 @@ int main ()
 
         // Se restablece la estimación de la duración del siguiente fotograma:
 
-        delta_time = timer.getElapsedTime ().asSeconds ();
+        delta_time = min(1.f / 60.f, timer.getElapsedTime ().asSeconds ());
+       
     }
     while (running);
 

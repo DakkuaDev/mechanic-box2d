@@ -32,6 +32,32 @@ namespace Graphics
         
     }
 
+
+    void Scene::BeginContact(b2Contact* contact)
+    {
+        b2Fixture* fixtureA = contact->GetFixtureA();
+        b2Fixture* fixtureB = contact->GetFixtureB();
+
+        b2Body* bodyA = fixtureA->GetBody();
+        b2Body* bodyB = fixtureB->GetBody();
+
+        Physics::Entity* entityA = (Physics::Entity*)bodyA->GetUserData().pointer;
+        Physics::Entity* entityB = (Physics::Entity*)bodyB->GetUserData().pointer;
+
+        if (entityA != NULL && entityB != NULL)
+        {
+            if (entityA->get_tag() == "platform_1" && entityB->get_tag() == "player")
+            {
+                platform1_moving = true;
+            }
+
+            if (entityA->get_tag() == "platform_2" && entityB->get_tag() == "player")
+            {
+                platform2_moving = true;
+            }
+        }
+    }
+
     void Scene::run_test_scene()
     {
 
@@ -69,17 +95,22 @@ namespace Graphics
 
     void Scene::run_exercise_scene()
     {
-        physics_world->SetContactListener(new Physics::CollisionHandle());
+        physics_world->SetContactListener(this);
 
         // JUGADOR
-        Physics::Entity player(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 2.8, 0.25);
+        entities["player"].reset(new Physics::Entity(*physics_world, b2_dynamicBody, Body_Shape::Circle, 2, 2.8, 0.25));
+        auto &player = *entities["player"];
         player.set_tag("player");
 
         // PLATAFORMAS
-        Physics::Entity platform_1(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65f, -0.75f, 1.25f, 0.20f);
-        platform_1.set_tag("platform");
-        Physics::Entity platform_2(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 4.5f, 2.5f, 1.10f, 0.20f);
-        platform_2.set_tag("platform");
+        entities["platform_1"].reset(new Physics::Entity(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 11.65, -0.75f, 1.25f, 0.20f));
+        auto& platform_1 = *entities["platform_1"];
+        platform_1.set_tag("platform_1");
+
+        entities["platform_2"].reset(new Physics::Entity(*physics_world, b2_kinematicBody, Body_Shape::Polygon, 4.5f, 2.5f, 1.10f, 0.20f));
+        auto& platform_2 = *entities["platform_2"];
+        platform_2.set_tag("platform_2");
+
 
         // MECANISMOS
         // ----------- Trasnbordador --------------
@@ -101,9 +132,9 @@ namespace Graphics
         Physics::Joint car_joint2(*physics_world, *wheel2.get_body(), *car.get_body());
         car_joint2.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
         Physics::Joint car_joint3(*physics_world, *car.get_body(), *car_i.get_body());
-        car_joint3.generate_joint(Joint_Type::Revolute, 5, 1, 0);
+        car_joint3.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
         Physics::Joint car_joint4(*physics_world, *car.get_body(), *car_d.get_body());
-        car_joint4.generate_joint(Joint_Type::Revolute, 5, 1, 0);
+        car_joint4.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
 
         // -------------- Rotor ------------------
         Physics::Entity rotor_engine(*physics_world, b2_staticBody, Body_Shape::Circle, 1.15, 1.05, 0.1);
@@ -136,18 +167,19 @@ namespace Graphics
 
         // Estáticos (Derecha a izquierda)
         Physics::Entity floor_4(*physics_world, b2_staticBody, Body_Shape::Polygon, 9.38f, 4.35f, 0.85f, 0.20f);
-        Physics::Entity floor_5(*physics_world, b2_staticBody, Body_Shape::Polygon, 7.65f, 3.5f, 1.4f, 0.15f);
+        Physics::Entity floor_5(*physics_world, b2_staticBody, Body_Shape::Polygon, 7.65f, 3.49f, 1.4f, 0.15f);
         Physics::Entity floor_6(*physics_world, b2_staticBody, Body_Shape::Polygon, 6.20f, 2.5f, 0.55f, 0.20f);
 
         Physics::Entity goal_1(*physics_world, b2_staticBody, Body_Shape::Polygon, 2.8, 4.f, 0.75f, 0.05f);
         Physics::Entity goal_2(*physics_world, b2_staticBody, Body_Shape::Polygon, 1.7, 4.f, 0.75f, 0.05f);
 
-        Physics::Entity wall_d(*physics_world, b2_staticBody, Body_Shape::Polygon, 13.25, 2.5f, 0.25f, 10);
+        Physics::Entity wall_d(*physics_world, b2_staticBody, Body_Shape::Polygon, 13.25, 2.5f, 0.25f, 5);
+        Physics::Entity wall_i(*physics_world, b2_staticBody, Body_Shape::Polygon, 0.9, 5.f, 0.10f, 1.25);
 
 
         // Construimos los cuerpos y su perfil de datos (para poder identificarlos)
 
-        player.build_body(1, 0.3, 0.25);
+        player.build_body(1,0.3,0.25);
         player.set_userdata();
 
         platform_1.build_body();
@@ -166,19 +198,62 @@ namespace Graphics
         goal_2.build_body();
 
         wall_d.build_body();
+        wall_i.build_body();
 
         // Trasformaciones de giro
         floor_5.get_body()->SetTransform(floor_5.get_body()->GetPosition(), 95.f);
         goal_1.get_body()->SetTransform(goal_1.get_body()->GetPosition(), 95.f);
         goal_2.get_body()->SetTransform(goal_2.get_body()->GetPosition(), -95.f);
-
-           
+         
     }
-
 
     void Scene::update(b2World& _physics_world, float _delta_time)
     {
-        //physics_world->Step(delta_time, 8, 4);
+        // Plataforma inferior
+        if (platform1_moving)
+        {
+           
+            if (entities["platform_1"]->get_body()->GetPosition().y <= 4.35)
+            {
+                entities["platform_1"]->get_body()->SetLinearVelocity({ 0, 1.8 });
+            }
+            else
+            {
+                entities["platform_1"]->get_body()->SetLinearVelocity({ 0, 0 });
+                platform1_moving = false;
+            }
+        }
+        else
+        {
+            if (entities["platform_1"]->get_body()->GetPosition().y >= -0.7)
+            {
+                entities["platform_1"]->get_body()->SetLinearVelocity({ 0, -1.8 });
+            }
+            else entities["platform_1"]->get_body()->SetLinearVelocity({ 0, 0 });
+        }
+
+        // Plataforma superior
+        if (platform2_moving)
+        {
+
+            if (entities["platform_2"]->get_body()->GetPosition().y <= 4.35)
+            {
+                entities["platform_2"]->get_body()->SetLinearVelocity({ 0, 3.75 });
+            }
+            else
+            {
+                entities["platform_2"]->get_body()->SetLinearVelocity({ 0, 0 });
+                platform2_moving = false;
+            }
+        }
+        else
+        {
+            if (entities["platform_2"]->get_body()->GetPosition().y >= 2.55)
+            {
+                entities["platform_2"]->get_body()->SetLinearVelocity({ 0, -2.2 });
+            }
+            else entities["platform_2"]->get_body()->SetLinearVelocity({ 0, 0 });
+        }
     }
 
     void Scene::render(b2World& physics_world, RenderWindow& window, float scale)
@@ -276,5 +351,7 @@ namespace Graphics
             }
         }
     }
+
+
 };
 

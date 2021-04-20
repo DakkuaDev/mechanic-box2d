@@ -72,7 +72,5 @@ namespace Physics
 
             circle_shape.m_radius = radius;
         }
-    }
-
-    
+    }   
 }

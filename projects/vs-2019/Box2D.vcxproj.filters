@@ -30,9 +30,6 @@
     <ClCompile Include="..\..\code\source\Joint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\CollisionHandle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\code\source\Entity.h">
@@ -45,9 +42,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\headers\Joint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\headers\CollisionHandle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
