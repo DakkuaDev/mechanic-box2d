@@ -41,6 +41,16 @@ namespace Physics
 
         Joint(b2World& _world, b2Body& _body_a, b2Body& _body_b);
 
+        inline b2DistanceJointDef get_distance_jointDef()
+        {
+            return distance_jointDef;
+        }
+
+        inline b2RevoluteJointDef get_revolute_jointDef()
+        {
+            return revolute_jointDef;
+        }
+
     public:
 
         /// <summary>
@@ -55,15 +65,15 @@ namespace Physics
         /// </summary>
         void generate_joint
         (
-            Joint_Type type, 
-            float _length = 10, 
-            float _stiffness = 3, 
-            float _damping = 0.1, 
-            bool _enable_motor = 
-            false, float _motor_speed = 0.0f, 
+            Joint_Type type,
+            float _length = 10,
+            float _stiffness = 3,
+            float _damping = 0.1,
+            bool _block_joint = false,
+            bool _enable_motor = false,
+            float _motor_speed = 0.0f, 
             float _max_motor_torque = 10.0f
         );
-
 
     };
 }

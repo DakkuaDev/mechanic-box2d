@@ -13,7 +13,7 @@ namespace Physics
     Joint::Joint(b2World& _world, b2Body& _body_a, b2Body& _body_b)
         : world(&_world), body_a(&_body_a), body_b(&_body_b) {}
 
-    void Joint::generate_joint(Joint_Type type, float _length, float _stiffness, float _damping, bool _enable_motor, float _motor_speed, float _max_motor_torque)
+    void Joint::generate_joint(Joint_Type type, float _length, float _stiffness, float _damping, bool _block_joint, bool _enable_motor, float _motor_speed, float _max_motor_torque)
     {
         if (type == Joint_Type::Distance)
         {
@@ -37,6 +37,13 @@ namespace Physics
         {
             revolute_jointDef.bodyA = body_a;
             revolute_jointDef.bodyB = body_b;
+
+            if (_block_joint)
+            {
+                revolute_jointDef.lowerAngle = 0;
+                revolute_jointDef.upperAngle = 0;
+                revolute_jointDef.enableLimit = true;
+            }
 
             // El motor de la joint se encuentra activado
             if (_enable_motor)

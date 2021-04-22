@@ -137,22 +137,22 @@ namespace Graphics
         car_joint4.generate_joint(Joint_Type::Revolute, 0.5, 0.5);
 
         // -------------- Rotor ------------------
-        Physics::Entity rotor_engine(*physics_world, b2_staticBody, Body_Shape::Circle, 1.15, 1.05, 0.1);
+        Physics::Entity rotor_engine(*physics_world, b2_dynamicBody, Body_Shape::Circle, 1.15, 1.05, 0.1);
         rotor_engine.build_body();
         Physics::Entity rotor(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 1.25, 1.05, 0.225, 0.025);
         rotor.build_body();
 
-        Physics::Entity rotor_engine2(*physics_world, b2_staticBody, Body_Shape::Circle, 5.15, 5.05, 0.1);
+        Physics::Entity rotor_engine2(*physics_world, b2_dynamicBody, Body_Shape::Circle, 5.15, 5.05, 0.1);
         rotor_engine2.build_body();
         Physics::Entity rotor2(*physics_world, b2_dynamicBody, Body_Shape::Polygon, 5.25, 5.05, 0.5, 0.025);
         rotor2.build_body();
 
         // Joints
         Physics::Joint rotor_joint(*physics_world, *rotor_engine.get_body(), *rotor.get_body());
-        rotor_joint.generate_joint(Joint_Type::Revolute, 10, 3, 0.1, true, 12.5, 20);
+        rotor_joint.generate_joint(Joint_Type::Revolute, 10, 3, 0.1, false, true, 12.7, 25);
 
         Physics::Joint rotor_joint2(*physics_world, *rotor_engine2.get_body(), *rotor2.get_body());
-        rotor_joint2.generate_joint(Joint_Type::Revolute, 10, 3, 0.1, true, 12.5, 20);
+        rotor_joint2.generate_joint(Joint_Type::Revolute, 10, 3, 0.1, false, true, 12.5, 20);
 
 
         // ESCENARIO
@@ -175,7 +175,6 @@ namespace Graphics
 
         Physics::Entity wall_d(*physics_world, b2_staticBody, Body_Shape::Polygon, 13.25, 2.5f, 0.25f, 5);
         Physics::Entity wall_i(*physics_world, b2_staticBody, Body_Shape::Polygon, 0.9, 5.f, 0.10f, 1.25);
-
 
         // Construimos los cuerpos y su perfil de datos (para poder identificarlos)
 
@@ -204,7 +203,20 @@ namespace Graphics
         floor_5.get_body()->SetTransform(floor_5.get_body()->GetPosition(), 95.f);
         goal_1.get_body()->SetTransform(goal_1.get_body()->GetPosition(), 95.f);
         goal_2.get_body()->SetTransform(goal_2.get_body()->GetPosition(), -95.f);
-         
+
+        // Joints extras para bloquear primitivas
+        Physics::Joint rotor_joint_union(*physics_world, *rotor_engine.get_body(), *floor_1.get_body());
+        rotor_joint_union.generate_joint(Joint_Type::Revolute, 0.5, 1, 1, true);
+
+        Physics::Joint rotor_joint_union2(*physics_world, *rotor_engine2.get_body(), *floor_6.get_body());
+        rotor_joint_union2.generate_joint(Joint_Type::Revolute, 0.5, 1, 1, true);
+
+        Physics::Joint wall_i_union3(*physics_world, *wall_i.get_body(), *floor_1.get_body());
+        wall_i_union3.generate_joint(Joint_Type::Revolute, 0.5, 1, 1, true);
+
+        Physics::Joint wall_d_union4(*physics_world, *wall_d.get_body(), *floor_4.get_body());
+        wall_d_union4.generate_joint(Joint_Type::Revolute, 0.5, 1, 1, true);
+        
     }
 
     void Scene::update(b2World& _physics_world, float _delta_time)
