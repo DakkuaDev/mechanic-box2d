@@ -7,7 +7,7 @@
 - Joints
 - Scene
 
-![Captura](https://user-images.githubusercontent.com/61831013/125993280-5d8168f0-4143-42ab-affe-2c54b34e6709.PNG)
+![image](https://user-images.githubusercontent.com/61831013/125994072-53480a82-5f0e-4386-8ab2-f4e1c9beb4be.png)
 
 Author: Daniel Guerra Gallardo
 
